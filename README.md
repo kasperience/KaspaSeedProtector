@@ -107,4 +107,21 @@ The extension allows seed phrase submission to these trusted domains:
 
 ## License
 
-This project is open source. Feel free to modify and distribute according to your needs.
+This project is licensed under a **Non-Commercial License**. 
+
+**✅ Permitted Uses:**
+- Personal use
+- Educational purposes
+- Research and security analysis
+- Community projects
+- Open source contributions
+
+**❌ Commercial Use Prohibited:**
+- Selling the software or derivatives
+- Using in commercial products/services
+- Monetization through ads or subscriptions
+- Incorporation into proprietary software
+
+For commercial licensing, please contact the author.
+
+See the [LICENSE](LICENSE) file for full terms and conditions.
