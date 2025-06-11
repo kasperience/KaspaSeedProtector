@@ -129,14 +129,78 @@
             margin-top: 20px;
             font-weight: 500;
             min-height: 20px;
-        }
-        #result {
+        }        #result {
             margin-top: 20px;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 8px;
             display: none;
             text-align: left;
+        }
+        .donation-footer {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+        .donation-header h4 {
+            margin: 0 0 5px 0;
+            color: #14B8A6;
+            font-size: 16px;
+        }
+        .donation-header p {
+            margin: 0 0 15px 0;
+            color: #666;
+            font-size: 13px;
+        }
+        .donation-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .qr-section {
+            flex-shrink: 0;
+        }
+        .address-section {
+            flex-grow: 1;
+            text-align: left;
+        }
+        .copy-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: linear-gradient(90deg, #14B8A6, #0D9488);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-bottom: 5px;
+        }
+        .copy-button:hover {
+            opacity: 0.9;
+        }
+        .address-preview {
+            font-family: monospace;
+            font-size: 11px;
+            color: #666;
+            margin: 0;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .donation-thanks {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+            font-style: italic;
         }
     </style>
 </head>
@@ -167,40 +231,53 @@
             </div>
         </div>
 
-        <form id="testForm" action="https://httpbin.org/post" method="POST">
-            <div class="form-group">
+        <form id="testForm" action="https://httpbin.org/post" method="POST">            <div class="form-group">
                 <label for="seedPhrase">Enter your 12-word recovery phrase:</label>
                 <textarea id="seedPhrase" name="seedPhrase" placeholder="Enter your 12 words here, separated by spaces..." required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email (optional for notifications):</label>
-                <input type="email" id="email" name="email" placeholder="your@email.com">
             </div>
 
             <button type="submit">Recover Wallet Access</button>
             <button type="button" class="button-secondary" onclick="fillTestData()">Fill Test Data</button>
             <button type="button" class="button-secondary" onclick="clearData()">Clear All</button>
-        </form>
-
-        <div id="status-message"></div>
+        </form>        <div id="status-message"></div>
         <div id="result">
             <h3>Recovery Result:</h3>
             <p id="resultText"></p>
         </div>
+
+        <!-- Donation Footer -->
+        <div class="donation-footer">
+            <div class="donation-header">
+                <h4>💝 Support Development</h4>
+                <p>Help keep KaspaSeedProtector free and secure!</p>
+            </div>
+            <div class="donation-content">
+                <div class="qr-section">
+                    <div class="qr-placeholder">
+                        <img src="images/kaspa-donation-qr.png" alt="Kaspa Donation QR" width="80" height="80" style="background: white; padding: 4px; border-radius: 4px;">
+                    </div>
+                </div>
+                <div class="address-section">
+                    <button id="copyBtn" class="copy-button" title="Copy Kaspa address">
+                        <span id="copyIcon">📋</span>
+                        <span id="copyText">Copy Address</span>
+                    </button>
+                    <p class="address-preview" id="addressPreview">kaspa:qr02ac...qj24y5</p>
+                    <input type="hidden" id="fullAddress" value="kaspa:qr02ac46a6zwqzxgp97lcjw3th4f70x9mq24jsk6vgfmvvhy39lpyksqj24y5">
+                </div>
+            </div>
+            <p class="donation-thanks">Every donation helps improve Kaspa security! 🛡️</p>
+        </div>
     </div>
 
-    <script>
-        function fillTestData() {
+    <script>        function fillTestData() {
             document.getElementById('seedPhrase').value = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
-            document.getElementById('email').value = 'test@example.com';
         }
 
         function clearData() {
             document.getElementById('seedPhrase').value = '';
-            document.getElementById('email').value = '';
             document.getElementById('result').style.display = 'none';
-        }        document.getElementById('testForm').addEventListener('submit', function(e) {
+        }document.getElementById('testForm').addEventListener('submit', function(e) {
             // This should be prevented by the extension
             console.log('Wallet recovery attempted');
             
@@ -245,6 +322,42 @@
                     statusMessage.style.color = '#666';
                 }, 3000);
             }, 1500);
+        });
+
+        // Donation copy functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyBtn = document.getElementById('copyBtn');
+            const copyIcon = document.getElementById('copyIcon');
+            const copyText = document.getElementById('copyText');
+            const fullAddress = document.getElementById('fullAddress').value;
+
+            copyBtn.addEventListener('click', async function() {
+                try {
+                    await navigator.clipboard.writeText(fullAddress);
+                    
+                    // Show success state
+                    copyIcon.textContent = '✅';
+                    copyText.textContent = 'Copied!';
+                    copyBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        copyIcon.textContent = '📋';
+                        copyText.textContent = 'Copy Address';
+                        copyBtn.style.background = 'linear-gradient(90deg, #14B8A6, #0D9488)';
+                    }, 2000);
+                    
+                } catch (err) {
+                    console.error('Failed to copy address:', err);
+                    copyIcon.textContent = '❌';
+                    copyText.textContent = 'Copy Failed';
+                    
+                    setTimeout(() => {
+                        copyIcon.textContent = '📋';
+                        copyText.textContent = 'Copy Address';
+                    }, 2000);
+                }
+            });
         });
     </script>
 </body>

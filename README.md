@@ -125,3 +125,23 @@ This project is licensed under a **Non-Commercial License**.
 For commercial licensing, please contact the author.
 
 See the [LICENSE](LICENSE) file for full terms and conditions.
+
+## Contact
+
+KASperience - dev@KASperience.xyz
+
+## Donations
+
+Support KaspaSeedProtector's development!
+
+**Scan the QR Code or Copy the Address:**
+
+<div align="center">
+  <img src="images/kaspa-donation-qr.png" alt="Kaspa Donation QR Code" width="200"/>
+</div>
+
+```
+kaspa:qr02ac46a6zwqzxgp97lcjw3th4f70x9mq24jsk6vgfmvvhy39lpyksqj24y5
+```
+
+Thank you for your support! 🙏
