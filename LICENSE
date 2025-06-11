@@ -1,0 +1,60 @@
+Kaspa Seed Protector License (Non-Commercial)
+
+Copyright (c) 2025 kasperience
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, and distribute the Software for NON-COMMERCIAL purposes only,
+subject to the following conditions:
+
+PERMITTED USES:
+- Personal use
+- Educational use
+- Research purposes
+- Community projects and contributions
+- Open source projects
+- Security research and analysis
+
+PROHIBITED USES:
+- Commercial use, including but not limited to:
+  * Selling the Software or any derivative works
+  * Using the Software in commercial products or services
+  * Monetizing the Software through advertisements, subscriptions, or any other means
+  * Incorporating the Software into proprietary commercial software
+
+CONDITIONS:
+1. The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+2. Any modifications or derivative works must also be distributed under this same
+   license and remain non-commercial.
+
+3. Attribution must be given to the original author (kasperience) in any
+   distribution or derivative work.
+
+4. The Software may not be used for any illegal or malicious purposes.
+
+COMMERCIAL LICENSING:
+For commercial use, please contact the author to obtain a separate commercial license.
+Contact: [Your contact information here]
+
+DISCLAIMER:
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+SECURITY NOTICE:
+This software is designed for security purposes. Users are advised to:
+- Verify the integrity of the software before use
+- Keep the software updated
+- Report security vulnerabilities responsibly
+- Not rely solely on this extension for security - use additional security measures
+
+---
+
+This license is based on principles similar to Creative Commons Attribution-NonCommercial
+but is specifically tailored for software distribution and security tools.
