@@ -6,6 +6,31 @@ const wordCountRegex = /\b[a-z]+\b/gi;
 
 let isMonitoring = false;
 let detectedFields = new Set();
+let trustedDomains = [];
+
+// Load trusted domains from rules.json
+async function loadTrustedDomains() {
+  try {
+    const response = await fetch(chrome.runtime.getURL('rules.json'));
+    const rules = await response.json();
+    
+    // Extract excludedInitiatorDomains from the first rule
+    if (rules && rules[0] && rules[0].condition && rules[0].condition.excludedInitiatorDomains) {
+      trustedDomains = rules[0].condition.excludedInitiatorDomains;
+      console.log('Kaspa Seed Protector: Loaded trusted domains:', trustedDomains);
+    } else {
+      // Fallback to hardcoded domains if loading fails
+      trustedDomains = ['wallet.kaspanet.io', 'kaspa-ng.org', 'localhost'];
+      console.warn('Kaspa Seed Protector: Using fallback trusted domains');
+    }
+  } catch (error) {
+    console.error('Kaspa Seed Protector: Failed to load rules.json, using fallback domains:', error);
+    trustedDomains = ['wallet.kaspanet.io', 'kaspa-ng.org', 'localhost'];
+  }
+}
+
+// Initialize trusted domains when script loads
+loadTrustedDomains();
 
 function isSuspiciousSeedPhrase(text) {
   // Check if it matches the basic pattern
@@ -90,10 +115,8 @@ function startEnhancedMonitoring() {
           hasSeedPhrase = true;
         }
       });
-      
-      if (hasSeedPhrase) {
-        // Check if this is a trusted domain
-        const trustedDomains = ['wallet.kaspanet.io', 'kaspa.org', 'localhost'];
+        if (hasSeedPhrase) {
+        // Check if this is a trusted domain (using domains loaded from rules.json)
         const currentDomain = window.location.hostname;
         
         if (!trustedDomains.some(domain => currentDomain.includes(domain))) {
