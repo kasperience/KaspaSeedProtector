@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaspa Seed Protector Test Page</title>    <style>
+        /* Kaspa wallet styling copied from index.html */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .wallet-header {
+            margin-bottom: 30px;
+        }
+        .wallet-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ffeaa7;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        input, textarea {
+            width: calc(100% - 24px);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #14B8A6;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: linear-gradient(90deg, #14B8A6, #0D9488);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .button-secondary {
+            background: linear-gradient(90deg, #6B7280, #4B5563);
+            font-size: 16px;
+            padding: 12px;
+        }
+        .test-info {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .test-info h3 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+        .seed-example {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 10px 0;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        #status-message {
+            margin-top: 20px;
+            font-weight: 500;
+            min-height: 20px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>    <div class="container">
+        <div class="wallet-header">
+            <img src="Kaspa_icon.png" alt="Kaspa Logo">
+            <h1>🧪 Kaspa Wallet Recovery - Test Mode</h1>
+            <p>This is a test environment for the Kaspa Seed Protector extension. Enter your recovery phrase to restore wallet access.</p>
+        </div>
+        
+        <div class="warning">
+            <strong>⚠️ SECURITY TEST:</strong> This is a test page for the Kaspa Seed Protector extension. 
+            Never enter your real seed phrase on any website except official Kaspa wallets!
+        </div>
+
+        <div class="test-info">
+            <h3>🔬 Extension Test Instructions:</h3>
+            <ol>
+                <li>Make sure the Kaspa Seed Protector extension is installed and active</li>
+                <li>Enter a fake 12-word seed phrase in the recovery field below</li>
+                <li>Try to recover the wallet - it should be blocked by the extension</li>
+                <li>Check the extension popup to see the protection status</li>
+            </ol>
+            
+            <div class="seed-example">
+                <strong>Safe test phrase to use:</strong><br>
+                abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about
+            </div>
+        </div>
+
+        <form id="testForm" action="https://httpbin.org/post" method="POST">
+            <div class="form-group">
+                <label for="seedPhrase">Enter your 12-word recovery phrase:</label>
+                <textarea id="seedPhrase" name="seedPhrase" placeholder="Enter your 12 words here, separated by spaces..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email (optional for notifications):</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com">
+            </div>
+
+            <button type="submit">Recover Wallet Access</button>
+            <button type="button" class="button-secondary" onclick="fillTestData()">Fill Test Data</button>
+            <button type="button" class="button-secondary" onclick="clearData()">Clear All</button>
+        </form>
+
+        <div id="status-message"></div>
+        <div id="result">
+            <h3>Recovery Result:</h3>
+            <p id="resultText"></p>
+        </div>
+    </div>
+
+    <script>
+        function fillTestData() {
+            document.getElementById('seedPhrase').value = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
+            document.getElementById('email').value = 'test@example.com';
+        }
+
+        function clearData() {
+            document.getElementById('seedPhrase').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('result').style.display = 'none';
+        }        document.getElementById('testForm').addEventListener('submit', function(e) {
+            // This should be prevented by the extension
+            console.log('Wallet recovery attempted');
+            
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.textContent = 'Processing recovery...';
+            statusMessage.style.color = '#14B8A6';
+            
+            // If we get here, the extension didn't block it
+            setTimeout(() => {
+                e.preventDefault();
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('resultText').innerHTML = 
+                    '❌ <strong>Extension Protection Failed!</strong><br>' +
+                    'The wallet recovery attempt was not blocked. Please verify the extension is properly installed and enabled.<br><br>' +
+                    '<em>In a real phishing scenario, your seed phrase could have been stolen!</em>';
+                
+                statusMessage.textContent = 'Security check failed - Extension not working';
+                statusMessage.style.color = '#c62828';
+            }, 1000);
+        });        // Add some additional test scenarios
+        window.addEventListener('load', function() {
+            console.log('Kaspa wallet test page loaded. Extension should be monitoring...');
+            
+            // Simulate realistic user behavior for testing
+            setTimeout(() => {
+                const textarea = document.getElementById('seedPhrase');
+                const statusMessage = document.getElementById('status-message');
+                
+                // Test auto-detection with a realistic seed phrase pattern
+                textarea.value = 'abandon ability able about above absent absorb abstract absurd abuse access accident';
+                statusMessage.textContent = 'Extension test: Seed phrase auto-filled for testing';
+                statusMessage.style.color = '#f57c00';
+                
+                // Trigger input event to test detection
+                const event = new Event('input', { bubbles: true });
+                textarea.dispatchEvent(event);
+                
+                // Clear after demonstration
+                setTimeout(() => {
+                    textarea.value = '';
+                    statusMessage.textContent = 'Ready for testing - Enter a 12-word phrase';
+                    statusMessage.style.color = '#666';
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
