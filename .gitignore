@@ -25,6 +25,9 @@ _metadata/
 *.crx
 *.pem
 
+# Chrome extension generated files
+generated_indexed_rulesets/
+
 # Logs
 logs
 *.log

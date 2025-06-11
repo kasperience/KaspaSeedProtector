@@ -38,7 +38,6 @@ function handleSeedPhraseDetection(element) {
     url: window.location.href,
     domain: window.location.hostname
   });
-  
   // Visual feedback
   element.style.border = "2px solid #ff9800";
   element.style.backgroundColor = "#fff3e0";
