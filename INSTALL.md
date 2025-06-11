@@ -11,7 +11,7 @@
 
 3. **Load the Extension**
    - Click "Load unpacked" button
-   - Navigate to and select this folder: `c:\webDev\WebDevelopment\Kaspa_wallet_protector_extension`
+   - Navigate to and select this folder: `c:\[your_local_location]\KaspaSeedProtector`
    - Click "Select Folder"
 
 4. **Verify Installation**
@@ -21,7 +21,7 @@
 ## 🧪 Test the Extension
 
 ### Method 1: Use the Test Page
-1. Open the test page: `file:///c:/webDev/WebDevelopment/Kaspa_wallet_protector_extension/test-page.html`
+1. Open the test page: `file:///c:/[your_local_location]/KaspaSeedProtector/test-page.html`
 2. Click "Fill Test Data" button
 3. Try to submit the form - it should be blocked!
 4. Check the extension popup (click the icon) for status
