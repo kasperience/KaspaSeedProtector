@@ -8,11 +8,9 @@
     "condition": {
       "urlFilter": "*/api/*|*/submit/*|*/save/*|*/send/*|*/wallet/*|*/image*|*/upload/*|*/data/*",
       "resourceTypes": ["xmlhttprequest"],
-      "requestMethods": ["post", "put"],
-      "excludedInitiatorDomains": [
+      "requestMethods": ["post", "put"],      "excludedInitiatorDomains": [
         "wallet.kaspanet.io",
-        "kaspa.org",
-        "github.com",
+        "kaspa-ng.org",
         "localhost"
       ]
     }
