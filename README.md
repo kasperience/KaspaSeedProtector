@@ -27,7 +27,7 @@ A Chrome extension that protects users from phishing attempts targeting Kaspa wa
 
 ### Protection
 - Blocks form submissions containing seed phrases to non-whitelisted domains
-- Trusted domains include: `wallet.kaspanet.io`, `kaspa.org`, `localhost`
+- Trusted domains include: `wallet.kaspanet.io`, `kaspa-ng.org`, `localhost`
 - Shows alerts when blocking attempts
 - Updates extension icon to indicate threats
 
@@ -54,8 +54,7 @@ A Chrome extension that protects users from phishing attempts targeting Kaspa wa
 
 The extension allows seed phrase submission to these trusted domains:
 - `wallet.kaspanet.io`
-- `kaspa.org`
-- `github.com`
+- `kaspa-ng.org`
 - `localhost`
 
 ## Privacy
