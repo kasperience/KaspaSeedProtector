@@ -17,6 +17,12 @@
 4. **Verify Installation**
    - You should see "Kaspa Seed Protector" in your extensions list
    - The extension icon should appear in your Chrome toolbar
+   - Click the icon to see the popup with a ⚙️ settings button
+
+5. **Access Settings** (Optional)
+   - Click the extension icon in toolbar → "Manage Trusted Domains" button
+   - OR right-click the extension icon → "Options"
+   - Add custom trusted domains if needed
 
 ## 🧪 Test the Extension
 

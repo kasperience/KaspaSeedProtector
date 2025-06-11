@@ -20,21 +20,23 @@
       "matches": ["<all_urls>"],
       "js": ["content_script.js"]
     }
-  ],
-  "action": {
+  ],  "action": {
     "default_popup": "popup.html",
     "default_icon": "images/icon-default.png"
   },
+  "options_page": "options.html",
   "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
-  },
-  "declarative_net_request": {
+  },  "declarative_net_request": {
     "rule_resources": [{
       "id": "ruleset_1",
       "enabled": true,
       "path": "rules.json"
     }]
-  }
+  },  "web_accessible_resources": [{
+    "resources": ["rules.json", "options.css"],
+    "matches": ["<all_urls>"]
+  }]
 }

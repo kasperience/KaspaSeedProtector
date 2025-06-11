@@ -4,11 +4,13 @@ A Chrome extension that protects users from phishing attempts targeting Kaspa wa
 
 ## Features
 
-- **Real-time Seed Phrase Detection**: Monitors input fields for 12-word seed phrases
+- **Real-time Seed Phrase Detection**: Monitors input fields for 12-word seed phrases (case-insensitive)
 - **Phishing Protection**: Automatically blocks form submissions containing seed phrases to untrusted domains
 - **Visual Warnings**: Highlights suspicious input fields with color coding
 - **Smart Blocking**: Only blocks suspicious network requests, not all traffic
-- **Status Indicator**: Extension popup shows current protection status
+- **Status Indicator**: Extension popup shows current protection status with detailed threat information
+- **Custom Domain Management**: Users can add trusted domains through the options page
+- **Enhanced Security Notifications**: Detailed alerts showing blocked domains and timestamps
 
 ## Installation
 
@@ -17,6 +19,7 @@ A Chrome extension that protects users from phishing attempts targeting Kaspa wa
 3. Click "Load unpacked"
 4. Select the extension folder containing `manifest.json`
 5. The extension will appear in your toolbar
+6. **Access Settings**: Click the extension icon → "Manage Trusted Domains" button, or right-click extension icon → "Options"
 
 ## How It Works
 

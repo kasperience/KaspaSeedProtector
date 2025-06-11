@@ -5,15 +5,25 @@
     <title>Kaspa Seed Protector</title>
     <link rel="stylesheet" href="popup.css">
 </head>
-<body>
-  <div class="container">
+<body>  <div class="container">
     <div class="header">
       <img id="header-icon" src="images/icon48.png" alt="Logo" class="logo">
-      <h1>Kaspa Seed Protector</h1>
+      <div class="title-section">
+        <h1>Kaspa Seed Protector</h1>
+      </div>
+      <button id="settings-btn" class="settings-button" title="Open Settings">
+        <span class="gear-icon">⚙️</span>
+      </button>
     </div>
     <hr>
     <div id="status-container">
       <p id="status-message">Protection is active.</p>
+    </div>
+    <div class="actions">
+      <button id="open-options" class="btn-secondary">
+        <span class="settings-icon">⚙️</span>
+        Manage Trusted Domains
+      </button>
     </div>
   </div>
   <script src="popup.js"></script>

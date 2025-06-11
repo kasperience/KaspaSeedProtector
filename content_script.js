@@ -1,31 +1,49 @@
 // content_script.js
 
-// More comprehensive regex to detect seed phrases
-const seedPhraseRegex = /^\s*([a-z]+\s+){11}[a-z]+\s*$/i;
-const wordCountRegex = /\b[a-z]+\b/gi;
+// More comprehensive regex to detect seed phrases (case-insensitive)
+const seedPhraseRegex = /^\s*([a-zA-Z]+\s+){11}[a-zA-Z]+\s*$/i;
+const wordCountRegex = /\b[a-zA-Z]+\b/gi;
 
 let isMonitoring = false;
 let detectedFields = new Set();
 let trustedDomains = [];
 
-// Load trusted domains from rules.json
+// Load trusted domains from rules.json and user settings
 async function loadTrustedDomains() {
+  // Start with fallback domains immediately
+  const defaultDomains = ['wallet.kaspanet.io', 'kaspa-ng.org', 'localhost'];
+  
   try {
-    const response = await fetch(chrome.runtime.getURL('rules.json'));
-    const rules = await response.json();
-    
-    // Extract excludedInitiatorDomains from the first rule
-    if (rules && rules[0] && rules[0].condition && rules[0].condition.excludedInitiatorDomains) {
-      trustedDomains = rules[0].condition.excludedInitiatorDomains;
+    // Load custom domains from user settings first (always works)
+    chrome.storage.sync.get(['customTrustedDomains'], function(result) {
+      const customDomains = result.customTrustedDomains || [];
+      trustedDomains = [...defaultDomains, ...customDomains];
       console.log('Kaspa Seed Protector: Loaded trusted domains:', trustedDomains);
-    } else {
-      // Fallback to hardcoded domains if loading fails
-      trustedDomains = ['wallet.kaspanet.io', 'kaspa-ng.org', 'localhost'];
-      console.warn('Kaspa Seed Protector: Using fallback trusted domains');
+    });
+
+    // Optionally try to load from rules.json (this might fail, but it's not critical)
+    try {
+      const response = await fetch(chrome.runtime.getURL('rules.json'));
+      const rules = await response.json();
+      
+      if (rules && rules[0] && rules[0].condition && rules[0].condition.excludedInitiatorDomains) {
+        const rulesDomains = rules[0].condition.excludedInitiatorDomains;
+        // Update with rules.json domains if available
+        chrome.storage.sync.get(['customTrustedDomains'], function(result) {
+          const customDomains = result.customTrustedDomains || [];
+          trustedDomains = [...rulesDomains, ...customDomains];
+          console.log('Kaspa Seed Protector: Updated domains from rules.json:', trustedDomains);
+        });
+      }
+    } catch (fetchError) {
+      console.warn('Kaspa Seed Protector: Could not fetch rules.json, using defaults:', fetchError.message);
+      // This is OK - we already have default domains loaded
     }
+    
   } catch (error) {
-    console.error('Kaspa Seed Protector: Failed to load rules.json, using fallback domains:', error);
-    trustedDomains = ['wallet.kaspanet.io', 'kaspa-ng.org', 'localhost'];
+    console.error('Kaspa Seed Protector: Error in loadTrustedDomains:', error);
+    // Ensure we always have some domains loaded
+    trustedDomains = defaultDomains;
   }
 }
 

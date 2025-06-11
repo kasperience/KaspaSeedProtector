@@ -6,8 +6,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (!tabId) return;
 
   if (request.type === "SEED_PHRASE_DETECTED") {
-    // Store a 'detected' status for this specific tab ID
-    chrome.storage.session.set({ [tabId]: 'detected' });
+    // We use chrome.storage.session to ensure the 'detected' status is
+    // temporary and automatically cleared when the browser closes,
+    // protecting user privacy.
+    chrome.storage.session.set({ 
+      [tabId]: 'detected',
+      [`${tabId}_url`]: request.url,
+      [`${tabId}_domain`]: request.domain
+    });
     
     // Update the action icon to show enhanced monitoring (use default icon with slight change)
     chrome.action.setIcon({ 
@@ -22,8 +28,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('Background: Seed phrase detected on tab', tabId, 'URL:', request.url);
     
   } else if (request.type === "PHISHING_ATTEMPT_DETECTED") {
-    // Store a 'blocked' status for this specific tab ID
-    chrome.storage.session.set({ [tabId]: 'blocked' });
+    // Store detailed information about the blocked attempt
+    // This allows the popup to show specific details to the user
+    chrome.storage.session.set({ 
+      [tabId]: 'blocked',
+      [`${tabId}_url`]: request.url,
+      [`${tabId}_domain`]: request.domain,
+      [`${tabId}_action`]: request.action,
+      [`${tabId}_timestamp`]: Date.now()
+    });
 
     // Update the action icon to show a warning for the specific tab
     chrome.action.setIcon({ 
@@ -44,6 +57,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
     
     console.log('Background: Blocked phishing attempt on', request.domain, 'URL:', request.url);
+    
+  } else if (request.type === "UPDATE_TRUSTED_DOMAINS") {
+    // Handle updates from options page
+    console.log('Background: Trusted domains updated by user');
+    // Note: We don't need to update declarativeNetRequest rules here since
+    // they are handled by the content script's domain checking logic
   }
 });
 

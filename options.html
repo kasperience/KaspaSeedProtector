@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaspa Seed Protector - Options</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="images/icon48.png" alt="Kaspa Seed Protector" class="logo">
+            <h1>Kaspa Seed Protector Settings</h1>
+            <p>Manage trusted domains for your Kaspa wallet security</p>
+        </div>
+
+        <div class="section">
+            <h2>🔒 Trusted Domains</h2>
+            <p class="description">
+                These domains are allowed to receive seed phrase submissions. Only add domains you absolutely trust.
+            </p>
+            
+            <div class="default-domains">
+                <h3>Default Trusted Domains:</h3>
+                <div class="domain-list" id="defaultDomains">
+                    <div class="domain-item default">
+                        <span class="domain">wallet.kaspanet.io</span>
+                        <span class="badge">Official</span>
+                    </div>
+                    <div class="domain-item default">
+                        <span class="domain">kaspa-ng.org</span>
+                        <span class="badge">Official</span>
+                    </div>
+                    <div class="domain-item default">
+                        <span class="domain">localhost</span>
+                        <span class="badge">Development</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-domains">
+                <h3>Custom Trusted Domains:</h3>
+                <div class="add-domain">
+                    <input type="text" id="newDomain" placeholder="example.com" maxlength="100">
+                    <button id="addDomain" class="btn-primary">Add Domain</button>
+                </div>
+                <div class="domain-list" id="customDomains">
+                    <!-- Custom domains will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Security Warning</h2>
+            <div class="warning-box">
+                <p><strong>Important:</strong> Only add domains you completely trust. Malicious domains in this list could steal your seed phrase!</p>
+                <ul>
+                    <li>Verify domain spelling carefully</li>
+                    <li>Never add suspicious or unknown domains</li>
+                    <li>When in doubt, don't add the domain</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="saveSettings" class="btn-primary">Save Settings</button>
+            <button id="resetSettings" class="btn-secondary">Reset to Defaults</button>
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+</html>
