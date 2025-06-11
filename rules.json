@@ -6,7 +6,7 @@
       "type": "block"
     },
     "condition": {
-      "urlFilter": "*/api/*|*/submit/*|*/save/*|*/send/*|*/wallet/*",
+      "urlFilter": "*/api/*|*/submit/*|*/save/*|*/send/*|*/wallet/*|*/image*|*/upload/*|*/data/*",
       "resourceTypes": ["xmlhttprequest"],
       "requestMethods": ["post", "put"],
       "excludedInitiatorDomains": [
