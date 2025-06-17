@@ -81,10 +81,9 @@ function handleSeedPhraseDetection(element) {
     url: window.location.href,
     domain: window.location.hostname
   });
-  // Visual feedback
-  element.style.border = "2px solid #ff9800";
-  element.style.backgroundColor = "#fff3e0";
-  element.style.boxShadow = "0 0 5px rgba(255, 152, 0, 0.5)";
+  
+  // Smart visual feedback that adapts to dark/light themes
+  applySmartStyling(element);
   
   // Add warning tooltip
   const warning = document.createElement('div');
@@ -106,6 +105,107 @@ function handleSeedPhraseDetection(element) {
   if (!isMonitoring) {
     startEnhancedMonitoring();
   }
+}
+
+function applySmartStyling(element) {
+  // Get computed styles to detect dark mode
+  const computedStyle = window.getComputedStyle(element);
+  const textColor = computedStyle.color;
+  const backgroundColor = computedStyle.backgroundColor;
+  
+  // Parse RGB values to determine if it's likely dark mode
+  const isDarkMode = isDarkModeElement(element, computedStyle);
+  
+  // Apply appropriate styling based on theme
+  if (isDarkMode) {
+    // Dark mode: Use dark orange background with light text
+    element.style.border = "2px solid #ff9800";
+    element.style.backgroundColor = "#4a2c00"; // Dark orange
+    element.style.color = "#ffcc80"; // Light orange text
+    element.style.boxShadow = "0 0 5px rgba(255, 152, 0, 0.5)";
+  } else {
+    // Light mode: Use light orange background with dark text
+    element.style.border = "2px solid #ff9800";
+    element.style.backgroundColor = "#fff3e0"; // Light orange
+    element.style.color = "#e65100"; // Dark orange text
+    element.style.boxShadow = "0 0 5px rgba(255, 152, 0, 0.5)";
+  }
+  
+  // Ensure text is always visible
+  element.style.fontWeight = "500";
+}
+
+function isDarkModeElement(element, computedStyle) {
+  // Method 1: Check if background is dark
+  const bgColor = computedStyle.backgroundColor;
+  if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+    const rgb = parseRGB(bgColor);
+    if (rgb) {
+      const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b);
+      if (luminance < 128) return true; // Dark background
+    }
+  }
+  
+  // Method 2: Check text color (if text is light, likely dark mode)
+  const textColor = computedStyle.color;
+  if (textColor) {
+    const rgb = parseRGB(textColor);
+    if (rgb) {
+      const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b);
+      if (luminance > 200) return true; // Light text suggests dark mode
+    }
+  }
+  
+  // Method 3: Check body/html background for overall theme
+  const bodyStyle = window.getComputedStyle(document.body);
+  const bodyBg = bodyStyle.backgroundColor;
+  if (bodyBg && bodyBg !== 'rgba(0, 0, 0, 0)' && bodyBg !== 'transparent') {
+    const rgb = parseRGB(bodyBg);
+    if (rgb) {
+      const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b);
+      if (luminance < 128) return true;
+    }
+  }
+  
+  // Method 4: Check for common dark mode indicators
+  const htmlElement = document.documentElement;
+  const classList = htmlElement.classList;
+  const darkModeClasses = ['dark', 'dark-mode', 'theme-dark', 'night-mode'];
+  if (darkModeClasses.some(cls => classList.contains(cls))) {
+    return true;
+  }
+  
+  // Method 5: Check data attributes
+  if (htmlElement.getAttribute('data-theme') === 'dark' || 
+      htmlElement.getAttribute('data-color-scheme') === 'dark') {
+    return true;
+  }
+  
+  return false; // Default to light mode
+}
+
+function parseRGB(color) {
+  // Parse rgb(), rgba(), hex colors
+  if (color.startsWith('rgb')) {
+    const matches = color.match(/\d+/g);
+    if (matches && matches.length >= 3) {
+      return {
+        r: parseInt(matches[0]),
+        g: parseInt(matches[1]),
+        b: parseInt(matches[2])
+      };
+    }
+  } else if (color.startsWith('#')) {
+    const hex = color.slice(1);
+    if (hex.length === 6) {
+      return {
+        r: parseInt(hex.slice(0, 2), 16),
+        g: parseInt(hex.slice(2, 4), 16),
+        b: parseInt(hex.slice(4, 6), 16)
+      };
+    }
+  }
+  return null;
 }
 
 function startEnhancedMonitoring() {
